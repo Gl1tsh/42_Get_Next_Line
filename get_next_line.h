@@ -6,7 +6,8 @@
 /*   By: nagiorgi <nagiorgi@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 10:38:37 by nagiorgi          #+#    #+#             */
-/*   Updated: 2023/11/01 10:43:47 by nagiorgi         ###   ########.fr       */
+/*   Updated: 2023/11/05 15:08:40 by nagiorgi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+char	*get_next_line(int fd);
