@@ -6,7 +6,7 @@
 /*   By: nagiorgi <nagiorgi@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 10:38:47 by nagiorgi          #+#    #+#             */
-/*   Updated: 2023/11/09 17:51:58 by nagiorgi         ###   ########.fr       */
+/*   Updated: 2023/11/09 18:11:10 by nagiorgi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@ char	*ft_strndup(const char *str, size_t n);
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 42
 #endif
+
+typedef struct	s_gnl
+{
+	char	*buffer;
+	char	*after_new_line;
+	size_t	bytes_read;
+}			t_gnl;
+
 
 //=================================
 
@@ -60,63 +68,61 @@ Il détermine combien d'octets seront lus à chaque appel à read.
 
 char	*get_next_line(int fd)
 {
-	static char		*buffer = NULL;
-	static char		*after_new_line = NULL;
-	static size_t	bytes_read = 0;
+	static t_gnl	gnl = {NULL, NULL, 0};
 	int				read_result;
 	size_t			new_bytes_read;
 	char			*new_line_pointer;
 
-	if (buffer == NULL)
-		buffer = malloc(sizeof(char) * 200000);
+	if (gnl.buffer == NULL)
+		gnl.buffer = malloc(sizeof(char) * 200000);
 	
-	if (after_new_line != NULL)
+	if (gnl.after_new_line != NULL)
 	{
-		new_bytes_read = bytes_read - (after_new_line - buffer);
+		new_bytes_read = gnl.bytes_read - (gnl.after_new_line - gnl.buffer);
 		
-		ft_memmove(buffer, after_new_line, new_bytes_read);
+		ft_memmove(gnl.buffer, gnl.after_new_line, new_bytes_read);
 
-		bytes_read = new_bytes_read;
+		gnl.bytes_read = new_bytes_read;
 
-		new_line_pointer = ft_memchr(buffer, '\n', bytes_read);
+		new_line_pointer = ft_memchr(gnl.buffer, '\n', gnl.bytes_read);
 
 		if (new_line_pointer != NULL)
 		{
-			after_new_line = new_line_pointer + 1;
-			return (ft_strndup(buffer, (new_line_pointer - buffer) + 1));
+			gnl.after_new_line = new_line_pointer + 1;
+			return (ft_strndup(gnl.buffer, (new_line_pointer - gnl.buffer) + 1));
 		}
 	}
 
 	while (1)
 	{
-		read_result = read(fd, buffer + bytes_read, BUFFER_SIZE);
+		read_result = read(fd, gnl.buffer + gnl.bytes_read, BUFFER_SIZE);
 		if (read_result < 0)
 		{
-			free(buffer);
-			buffer = NULL;
-			after_new_line = NULL;
-			bytes_read = 0;
+			free(gnl.buffer);
+			gnl.buffer = NULL;
+			gnl.after_new_line = NULL;
+			gnl.bytes_read = 0;
 			return (NULL);
 		}
 		if (read_result == 0)
 		{
-			if (bytes_read == 0)
+			if (gnl.bytes_read == 0)
 			{
-				free(buffer);
-				buffer = NULL;
-				after_new_line = NULL;
+				free(gnl.buffer);
+				gnl.buffer = NULL;
+				gnl.after_new_line = NULL;
 				return (NULL);
 			}
-			after_new_line = buffer + bytes_read;
-			return (ft_strndup(buffer, bytes_read));
+			gnl.after_new_line = gnl.buffer + gnl.bytes_read;
+			return (ft_strndup(gnl.buffer, gnl.bytes_read));
 		}
-		bytes_read = bytes_read + read_result;
-		new_line_pointer = ft_memchr(buffer, '\n', bytes_read);
+		gnl.bytes_read = gnl.bytes_read + read_result;
+		new_line_pointer = ft_memchr(gnl.buffer, '\n', gnl.bytes_read);
 
 		if (new_line_pointer != NULL)
 		{
-			after_new_line = new_line_pointer + 1;
-			return (ft_strndup(buffer, (new_line_pointer - buffer) + 1));
+			gnl.after_new_line = new_line_pointer + 1;
+			return (ft_strndup(gnl.buffer, (new_line_pointer - gnl.buffer) + 1));
 		}
 	}
 }
