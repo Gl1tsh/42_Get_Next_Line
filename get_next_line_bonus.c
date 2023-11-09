@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nagiorgi <nagiorgi@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 10:38:47 by nagiorgi          #+#    #+#             */
-/*   Updated: 2023/11/09 18:38:06 by nagiorgi         ###   ########.fr       */
+/*   Updated: 2023/11/09 19:06:54 by nagiorgi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "get_next_line.h"
 #include <stdlib.h>
 #include <unistd.h>
+#include <limits.h>
 
 void	*ft_memchr(const void *s, int c, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
@@ -103,32 +104,35 @@ char	*fill_buffer(int fd, t_gnl *gnl)
 
 char	*get_next_line(int fd)
 {
-	static t_gnl	gnl = {NULL, NULL, 0};
+	static t_gnl	all_gnl[OPEN_MAX]
+		= {[0 ...OPEN_MAX - 1] = {NULL, NULL, 0}};
+	t_gnl			*gnl;
 	size_t			new_bytes_read;
 	char			*newline_found;
 
-	if (gnl.buffer == NULL)
-		gnl.buffer = malloc(sizeof(char) * 200000);
-	if (gnl.after_new_line != NULL)
+	if (fd < 0 || fd >= OPEN_MAX)
+		return (NULL);
+	gnl = &all_gnl[fd];
+	if (gnl->buffer == NULL)
+		gnl->buffer = malloc(sizeof(char) * 200000);
+	if (gnl->after_new_line != NULL)
 	{
-		new_bytes_read = gnl.bytes_read - (gnl.after_new_line - gnl.buffer);
-		ft_memmove(gnl.buffer, gnl.after_new_line, new_bytes_read);
-		gnl.bytes_read = new_bytes_read;
-		newline_found = ft_memchr(gnl.buffer, '\n', gnl.bytes_read);
+		new_bytes_read = gnl->bytes_read - (gnl->after_new_line - gnl->buffer);
+		ft_memmove(gnl->buffer, gnl->after_new_line, new_bytes_read);
+		gnl->bytes_read = new_bytes_read;
+		newline_found = ft_memchr(gnl->buffer, '\n', gnl->bytes_read);
 		if (newline_found != NULL)
 		{
-			gnl.after_new_line = newline_found + 1;
-			return (ft_strndup(gnl.buffer, (newline_found - gnl.buffer) + 1));
+			gnl->after_new_line = newline_found + 1;
+			return (ft_strndup(gnl->buffer, (newline_found - gnl->buffer) + 1));
 		}
 	}
-	return (fill_buffer(fd, &gnl));
+	return (fill_buffer(fd, gnl));
 }
 
 /*
 int _read(int fd, char *buffer, int count)
 {
-  static char content[] = "hello\nca\nva\n\nCool man, a fond!!";
-  static int cursor = 0;
   if (cursor >= sizeof(content)) return 0;
   if ((cursor + count) > sizeof(content)) count = sizeof(content) - cursor;
   memcpy(buffer, content + cursor, count);
