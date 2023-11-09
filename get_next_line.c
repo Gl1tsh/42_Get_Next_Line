@@ -6,19 +6,24 @@
 /*   By: nagiorgi <nagiorgi@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 10:38:47 by nagiorgi          #+#    #+#             */
-/*   Updated: 2023/11/08 18:56:23 by nagiorgi         ###   ########.fr       */
+/*   Updated: 2023/11/09 17:51:58 by nagiorgi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+//=================================
+#include "get_next_line.h"
 #include <stdlib.h>
 #include <unistd.h>
 
-//=================================
-#include <string.h>
-#define ft_memchr memchr
-#define ft_memcpy memcpy
-#define ft_memmove memmove
-#define ft_strndup strndup
+void	*ft_memchr(const void *s, int c, size_t n);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
+void	*ft_memmove(void *dest, const void *src, size_t n);
+char	*ft_strndup(const char *str, size_t n);
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 42
+#endif
+
 //=================================
 
 /*
@@ -55,24 +60,15 @@ Il détermine combien d'octets seront lus à chaque appel à read.
 
 char	*get_next_line(int fd)
 {
-	static int		is_last = 0;
 	static char		*buffer = NULL;
 	static char		*after_new_line = NULL;
 	static size_t	bytes_read = 0;
-	size_t			read_result;
+	int				read_result;
 	size_t			new_bytes_read;
 	char			*new_line_pointer;
 
-	if (is_last)
-	{
-		free(buffer);
-		buffer = NULL;
-		is_last = 0;
-		return (NULL);
-	}
-
 	if (buffer == NULL)
-		buffer = malloc(sizeof(char) * 2000000);
+		buffer = malloc(sizeof(char) * 200000);
 	
 	if (after_new_line != NULL)
 	{
@@ -99,6 +95,7 @@ char	*get_next_line(int fd)
 			free(buffer);
 			buffer = NULL;
 			after_new_line = NULL;
+			bytes_read = 0;
 			return (NULL);
 		}
 		if (read_result == 0)
