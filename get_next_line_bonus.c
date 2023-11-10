@@ -3,34 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nagiorgi <nagiorgi@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: nagiorgi <nagiorgi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 10:38:47 by nagiorgi          #+#    #+#             */
-/*   Updated: 2023/11/09 19:06:54 by nagiorgi         ###   ########.fr       */
+/*   Updated: 2023/11/10 18:09:55 by nagiorgi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //=================================
-#include "get_next_line.h"
-#include <stdlib.h>
-#include <unistd.h>
-#include <limits.h>
-
-void	*ft_memchr(const void *s, int c, size_t n);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
-void	*ft_memmove(void *dest, const void *src, size_t n);
-char	*ft_strndup(const char *str, size_t n);
+#include "get_next_line_bonus.h"
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 42
 #endif
-
-typedef struct s_gnl
-{
-	char	*buffer;
-	char	*after_new_line;
-	size_t	bytes_read;
-}			t_gnl;
 
 //=================================
 
@@ -114,7 +99,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	gnl = &all_gnl[fd];
 	if (gnl->buffer == NULL)
-		gnl->buffer = malloc(sizeof(char) * 200000);
+		gnl->buffer = malloc(sizeof(char) * 2000000);
 	if (gnl->after_new_line != NULL)
 	{
 		new_bytes_read = gnl->bytes_read - (gnl->after_new_line - gnl->buffer);

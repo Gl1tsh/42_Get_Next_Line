@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nagiorgi <nagiorgi@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: nagiorgi <nagiorgi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 10:38:59 by nagiorgi          #+#    #+#             */
-/*   Updated: 2023/11/09 17:38:35 by nagiorgi         ###   ########.fr       */
+/*   Updated: 2023/11/10 18:05:53 by nagiorgi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "get_next_line.h"
 
 void	*ft_memchr(const void *s, int c, size_t n)
 {
