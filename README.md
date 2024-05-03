@@ -1,17 +1,17 @@
 # GET_NEXT_LINE
 
-Le projet Get Next Line de l'école 42 est une étape cruciale dans le parcours d'apprentissage de la programmation en langage C. Son objectif principal est de familiariser les étudiants avec la lecture de fichiers texte ligne par ligne à l'aide d'une fonction qu'ils doivent implémenter eux-mêmes, appelée get_next_line.
+The Get Next Line project at 42 school is a crucial step in the journey of learning C programming. Its main objective is to familiarize students with reading text files line by line using a function they must implement themselves, called get_next_line.
 
-Ce projet met en lumière plusieurs concepts clés de la programmation en C, notamment :
+This project highlights several key concepts in C programming, including:
 
-- *Gestion des entrées/sorties* : Les étudiants doivent maîtriser l'ouverture, la lecture et la fermeture de fichiers en utilisant les fonctions de la bibliothèque standard C, telles que fopen, fgets et fclose.
+- *Input/Output Handling*: Students must master opening, reading, and closing files using functions from the C standard library, such as fopen, fgets, and fclose.
 
-- *Manipulation de pointeurs* : L'utilisation correcte des pointeurs est essentielle pour naviguer à travers le contenu du fichier, en gardant une trace de la position actuelle de lecture et en déplaçant le curseur de manière appropriée pour lire la ligne suivante.
+- *Pointer Manipulation*: Correct use of pointers is essential for navigating through the file content, keeping track of the current reading position, and moving the cursor appropriately to read the next line.
 
-- *Gestion dynamique de la mémoire* : Puisque la longueur des lignes de texte dans un fichier peut varier, les étudiants doivent allouer dynamiquement de la mémoire pour stocker chaque ligne lue. Ils doivent également libérer cette mémoire de manière adéquate pour éviter les fuites de mémoire.
+- *Dynamic Memory Management*: Since the length of text lines in a file may vary, students must dynamically allocate memory to store each read line. They must also free this memory properly to avoid memory leaks.
 
-- *Modularité du code* : Le projet encourage les étudiants à diviser leur implémentation en fonctions modulaires, ce qui facilite la maintenance du code et le rend plus lisible et réutilisable.
+- *Code Modularity*: The project encourages students to divide their implementation into modular functions, making the code easier to maintain and more readable and reusable.
 
-- *Gestion des cas limites* : Les étudiants doivent être capables de gérer efficacement des situations telles que la fin du fichier, les lignes vides et les fichiers contenant une seule ligne.
+- *Handling Edge Cases*: Students must be able to effectively handle situations such as end-of-file, empty lines, and files containing only a single line.
 
-En résumé, le projet Get Next Line est une étape cruciale dans l'apprentissage de la programmation en langage C à l'école 42. Il permet aux étudiants de renforcer leurs compétences dans différents aspects de la programmation, notamment la manipulation de fichiers, la gestion de la mémoire et la modularité du code. Ce projet prépare également les étudiants à des défis plus complexes dans le domaine de la programmation système en leur fournissant une base solide dans la manipulation des flux de données en C.
+In summary, the Get Next Line project is a crucial step in learning C programming at 42 school. It allows students to strengthen their skills in various aspects of programming, including file manipulation, memory management, and code modularity. This project also prepares students for more complex challenges in the field of system programming by providing a solid foundation in handling data streams in C.
